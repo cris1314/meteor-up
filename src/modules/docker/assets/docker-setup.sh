@@ -24,6 +24,6 @@ if [ ! "$hasDocker" ]; then
   sudo usermod -a -G docker ${USER}
 fi
 
-sudo service docker start
+sudo service docker start || sudo service docker restart
 
 # TODO make sure docker works as expected
