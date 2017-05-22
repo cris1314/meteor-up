@@ -75,7 +75,7 @@ describe('module - default', function() {
   describe('logs', function() {
     it('should pull the logs from meteor app', () => {
       sh.cd(path.resolve('/tmp/', 'tests/project-1'));
-      const out = sh.exec('mup logs');
+      const out = sh.exec('mup logs --tail 2');
       expect(out.code).to.be.equal(0);
     });
   });
