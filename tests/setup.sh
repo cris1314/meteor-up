@@ -13,25 +13,38 @@ mkdir /tmp/tests
 cp -rf $MUP_DIR/tests /tmp
 cd /tmp/tests/
 rm -rf new*
-# ssh-keygen -f new -t rsa -N ''
-# chmod 600 new.pub
-# sudo chown root:root new.pub
 eval `ssh-agent`
-docker rm -f $( docker ps -a -q --filter=ancestor=mup-tests-server ) 2>/dev/null
+
+
+docker rm -f $( docker ps -a -q --filter=ancestor=mup-tests-server )
+docker rm -f $( docker ps -a -q --filter=ancestor=mup-tests-server-docker )
+} > /dev/null
+
 if [[ -z $( docker images -aq mup-tests-server) ]]; then
      docker build -t mup-tests-server .
 fi
 
+if [[ -z $( docker images -aq mup-tests-server-docker) ]]; then
+    docker build -f ./Dockerfile_docker -t mup-tests-server-docker .
+    docker run -d --name mup-tests-server-docker-setup --privileged mup-tests-server-docker
+    sleep 2
+    docker exec mup-tests-server-docker-setup service docker start
+    docker exec -t mup-tests-server-docker-setup docker pull mongo:3.4.1
+    docker exec -t mup-tests-server-docker-setup docker pull kadirahq/meteord
+    docker commit mup-tests-server-docker-setup mup-tests-server-docker
+    docker rm -f mup-tests-server-docker-setup
+fi
+
+{
 cd $MUP_DIR
 rm -rf ./tests/ssh
 mkdir ./tests/ssh
 cd ./tests/ssh
 ssh-keygen -f new -t rsa -N ''
 chmod 600 new.pub
-sudo chown root:root new.pub
+chown root:root new.pub
 
 cd $MUP_DIR
-
-npm run prepublish
- npm link
 } > /dev/null
+
+npm link
