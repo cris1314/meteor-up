@@ -1,5 +1,5 @@
 # Default regexp matches all tests
-DEFAULT='[\s\S]+'
+DEFAULT='**'
 REGEX=${1:-$DEFAULT}
 
 source ./tests/setup.sh
@@ -10,5 +10,5 @@ export PROD_SERVER_USER="root"
 export PROD_SERVER="0.0.0.0"
 export PROD_SERVER_PORT=3500
 export PROD_SERVER_PEM=$MUP_DIR/tests/ssh/new
-npm run test:custom-server -- -g $REGEX || (docker rm -f $DOCKER_ID && exit 1)
+npm run test:module -- "lib/$REGEX/__tests__/**/*.js" || (docker rm -f $DOCKER_ID && exit 1)
 docker rm -f $DOCKER_ID
