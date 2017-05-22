@@ -42,7 +42,7 @@ mkdir ./tests/ssh
 cd ./tests/ssh
 ssh-keygen -f new -t rsa -N ''
 chmod 600 new.pub
-chown root:root new.pub
+sudo chown root:root new.pub
 
 cd $MUP_DIR
 } > /dev/null
