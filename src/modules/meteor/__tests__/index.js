@@ -56,7 +56,7 @@ describe('module - meteor', function() {
 
       sh.exec('mup meteor setup');
 
-      const out = sh.exec('mup meteor push --cached-deploy');
+      const out = sh.exec('mup meteor push --cached-build');
       assert.equal(out.code, 0);
 
       const num = countOccurences(
@@ -110,7 +110,7 @@ describe('module - meteor', function() {
     it('should start meteor on "meteor" vm', async () => {
       sh.cd(path.resolve('/tmp', 'tests/project-1'));
 
-      sh.exec('mup setup && mup meteor push --cached-deploy && mup meteor envconfig');
+      sh.exec('mup setup && mup meteor push --cached-build && mup meteor envconfig');
       const out = sh.exec('mup meteor start');
       assert.equal(out.code, 0);
 
@@ -161,7 +161,7 @@ describe('module - meteor', function() {
     it('should pull the logs from "meteor" vm', async () => {
       sh.cd(path.resolve('/tmp', 'tests/project-1'));
 
-      const out = sh.exec('mup meteor logs');
+      const out = sh.exec('mup meteor logs --tail 2');
       assert.equal(out.code, 0);
     });
   });
