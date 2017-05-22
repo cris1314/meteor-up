@@ -155,7 +155,7 @@ describe('module - default', function() {
     it('should start meteor app on "meteor" vm', async () => {
       const serverInfo = servers['mymeteor'];
       sh.cd(path.resolve('/tmp', 'tests/project-1'));
-      sh.exec('mup setup  && mup meteor push --cached-deploy && mup meteor envconfig');
+      sh.exec('mup setup  && mup meteor push --cached-build && mup meteor envconfig');
 
       const out = sh.exec('mup start');
 
@@ -176,7 +176,7 @@ describe('module - default', function() {
     it('should stop meteor app on "meteor" vm', async () => {
       const serverInfo = servers['mymeteor'];
       sh.cd(path.resolve('/tmp', 'tests/project-1'));
-      sh.exec('mup setup  && mup deploy --cached-deploy');
+      sh.exec('mup setup  && mup deploy --cached-build');
 
       const out = sh.exec('mup stop');
 
